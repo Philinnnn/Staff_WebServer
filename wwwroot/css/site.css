@@ -24,3 +24,17 @@ h2 {
 a {
   color: #007bff;
 }
+
+body {
+  background-color: #121212;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+a {
+  color: #1e90ff;
+}
+
+a:hover {
+  color: #63b3ed;
+}
