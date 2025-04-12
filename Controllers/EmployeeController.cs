@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Staff_WebServer.Controllers;
-
-public class EmployeeController : Controller
+namespace Staff_WebServer.Controllers
 {
-    // GET
-    public IActionResult Index()
+    public class EmployeeController : Controller
     {
-        return View();
+        public IActionResult Worker()
+        {
+            return View();
+        }
     }
 }
