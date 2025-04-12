@@ -1,0 +1,29 @@
+﻿@model List<Staff_WebServer.Models.Employee>
+
+@{
+    ViewBag.Title = "Список работников";
+}
+
+<h2>Список работников</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>ФИО</th>
+        <th>Оклад</th>
+        <th>Пол</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var emp in Model)
+    {
+        <tr>
+            <td>@emp.FullName</td>
+            <td>@emp.Salary</td>
+            <td>@emp.Gender</td>
+            <td><a href="@Url.Action("Details", "Employee", new { id = emp.Id })">Подробнее</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

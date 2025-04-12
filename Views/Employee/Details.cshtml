@@ -1,0 +1,7 @@
+﻿@model Staff_WebServer.Models.Employee
+
+<h2>Информация о сотруднике</h2>
+<p>ФИО: @Model.FullName</p>
+<p>ИИН: @Model.IIN</p>
+<p>Дата рождения: @Model.BirthDate.ToShortDateString()</p>
+<p>Оклад: @Model.Salary</p>
