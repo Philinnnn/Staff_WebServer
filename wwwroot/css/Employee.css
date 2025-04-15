@@ -18,15 +18,6 @@ header {
     padding: 1rem 0;
 }
 
-header .nav-pills .nav-link {
-    color: #fff;
-    margin: 0 1rem;
-}
-
-header .nav-pills .nav-link.active {
-    background-color: #007bff;
-}
-
 main {
     padding: 2rem;
     text-align: center;

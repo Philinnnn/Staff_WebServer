@@ -1,25 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Staff_WebServer.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Staff_WebServer.Controllers;
 
+[Authorize(Roles = "HR")]
 public class EmployeeController : Controller
 {
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public EmployeeController(UserManager<ApplicationUser> userManager)
+    {
+        _userManager = userManager;
+    }
+
     public IActionResult Index()
     {
-        // TODO: Временный список (замени на запрос к БД)
-        var employees = new List<Employee>
-        {
-            new Employee { Id = 1, FullName = "Королюк Виталий Викторович", Salary = 300000, Gender = "М" },
-            new Employee { Id = 2, FullName = "Сидорова Анна Петровна", Salary = 250000, Gender = "Ж" }
-        };
-
-        return View(employees);
+        // TODO: Заменить на запрос к БД для получения списка сотрудников
+        return View(new List<Employee>());
     }
 
     public IActionResult Details(int id)
     {
-        var employee = new Employee { Id = id, FullName = "Тестовый Работник" };
-        return View(employee);
+        // TODO: Заменить на запрос к БД для получения данных сотрудника
+        return View(new Employee { Id = id, FullName = "Тестовый Работник" });
     }
 }

@@ -1,8 +1,15 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<Staff_WebServer.Models.ApplicationUser> UserManager
+
+@{
     ViewData["Title"] = "Главная";
+    var user = await UserManager.GetUserAsync(User);
+    var roles = await UserManager.GetRolesAsync(user);
 }
 
 <h2>Кадровая система</h2>
+
+<p>Добро пожаловать, @user.UserName! Ваша роль: @string.Join(", ", roles)</p>
 
 <ul>
     <li><a href="/Employee">Работники</a></li>
