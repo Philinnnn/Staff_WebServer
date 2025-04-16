@@ -7,22 +7,23 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-<header>
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/Home/Admin">Admin</a></li>
-            <li><a href="/Home/HR">HR</a></li>
-            <li><a href="/Home/Director">Director</a></li>
-            <li><a href="/Home/Employee">Employee</a></li>
+<header class="header">
+    <nav class="navbar">
+        <div class="logo">StaffDB</div>
+        <ul class="nav-links">
+            <li><a href="/">Главная</a></li>
+            <li><a href="/Admin/CreateUser">Админ</a></li>
+            <li><a href="/Employee/Index">HR</a></li>
+            <li><a href="/Home/Director">Директор</a></li>
+            <li><a href="/Account/Login">Вход</a></li>
         </ul>
     </nav>
 </header>
-<main role="main" class="pb-3">
+<main class="main-content">
     @RenderBody()
 </main>
-<footer>
-    <p>&copy; 2025 - StaffDBWebApp</p>
+<footer class="footer">
+    <p>&copy; 2025 - StaffDBWebApp. Все права защищены.</p>
 </footer>
 </body>
 </html>
