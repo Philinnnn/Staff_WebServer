@@ -1,19 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject UserManager<Staff_WebServer.Models.ApplicationUser> UserManager
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewData["Title"] = "Главная";
     var user = await UserManager.GetUserAsync(User);
+    System.Diagnostics.Debug.Assert(user != null, nameof(user) + " != null");
     var roles = await UserManager.GetRolesAsync(user);
+
+    var redirectPath = roles.Contains("Admin") ? "/Admin" :
+                       roles.Contains("HR") ? "/HR" :
+                       roles.Contains("Director") ? "/Director" :
+                       "/Employee";
+    HttpContextAccessor.HttpContext?.Response.Redirect(redirectPath + "/Index");
 }
-
-<h2>Кадровая система</h2>
-
-<p>Добро пожаловать, @user.UserName! Ваша роль: @string.Join(", ", roles)</p>
-
-<ul>
-    <li><a href="/Employee">Работники</a></li>
-    <li><a href="/HR">HR-панель</a></li>
-    <li><a href="/Admin">Админка</a></li>
-    <li><a href="/Director">Директор</a></li>
-</ul>

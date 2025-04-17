@@ -14,6 +14,12 @@ namespace Staff_WebServer.Controllers
         }
 
         [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult CreateUser()
         {
             return View();
