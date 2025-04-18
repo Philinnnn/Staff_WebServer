@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Staff_WebServer.Controllers;
 
-[Authorize(Roles = "HR")]
 public class EmployeeController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
