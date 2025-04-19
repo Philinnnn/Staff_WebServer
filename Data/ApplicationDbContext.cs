@@ -31,7 +31,12 @@ namespace Staff_WebServer.Data
             builder.Entity<StaffSchedule>()
                 .HasKey(ss => new { ss.DepartmentId, ss.PositionId });
 
-
+            builder.Entity<ApplicationUser>()
+                .HasOne(u => u.Employee)
+                .WithOne(e => e.User)
+                .HasForeignKey<ApplicationUser>(u => u.ТабельныйНомер)
+                .OnDelete(DeleteBehavior.Cascade);
+            
             builder.Entity<Department>()
                 .HasOne(d => d.Head)
                 .WithMany()

@@ -6,6 +6,8 @@ namespace Staff_WebServer.Models;
 [Table("работники")]
 public class Employee
 {
+    public ApplicationUser User { get; set; }
+
     [Key]
     [Column("табельный_номер")]
     public int Id { get; set; }
