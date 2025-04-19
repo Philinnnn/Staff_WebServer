@@ -15,10 +15,10 @@
 
         string greeting = employee != null
             ? $"Здравствуйте, {GetName(employee.FullName)}!"
-            : $"Hello {User.Identity?.Name}!";
+            : $"Здравствуйте, {User.Identity?.Name}!";
 
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">@greeting</a>
+            <a class="nav-link text-dark" asp-controller="Employee" asp-action="Index">@greeting</a>
         </li>
         <li class="nav-item">
             <form asp-controller="Account" asp-action="Logout" method="post">
@@ -40,7 +40,7 @@
     {
         var parts = fullName.Split(' ');
         if (parts.Length >= 3)
-            return $"{parts[1]} {parts[2]}"; // Имя Отчество
+            return $"{parts[1]} {parts[2]}";
         if (parts.Length == 2)
             return parts[1];
         return fullName;
