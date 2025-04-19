@@ -3,9 +3,9 @@
         <div class="card-body">
             <h4>Аналитика и управление</h4>
             <ul>
-                <li><a href="#" class="text-info">Отчеты по персоналу</a></li>
+                <li><a asp-action="Reports" class="text-info">Отчёты по персоналу</a></li>
                 <li><a href="#" class="text-info">Статистика подразделений</a></li>
-                <li><a href="#" class="text-info">Просмотр приказов</a></li>
+                <li><a asp-controller="Director" asp-action="OrderList" class="text-info">Просмотр приказов</a></li>
                 <li><a asp-controller="Director" asp-action="EmployeesByDepartment" class="text-info">Сотрудники по подразделениям</a></li>
             </ul>
         </div>

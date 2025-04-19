@@ -18,21 +18,45 @@
             {
                 <table class="table table-dark table-striped">
                     <thead>
-                    <tr>
-                        <th>ФИО</th>
-                        <th>Должность</th>
-                        <th>Дата приема</th>
-                        <th>Оклад</th>
-                    </tr>
+                        <tr>
+                            <th>ФИО</th>
+                            <th>Должность</th>
+                            <th>Дата приема</th>
+                            <th>Оклад</th>
+                        </tr>
                     </thead>
                     <tbody>
                     @foreach (var emp in dept.Employees)
                     {
                         <tr>
-                            <td>@emp.FullName</td>
-                            <td>@emp.Position?.Name</td>
-                            <td>@emp.HireDate.ToShortDateString()</td>
-                            <td>@emp.Salary.ToString("C", new System.Globalization.CultureInfo("kk-KZ"))
+                            <td ondblclick="editField(this, @emp.Id, 'FullName')">
+                                <span class="editable">@emp.FullName</span>
+                                <input class="edit-input form-control d-none" type="text" value="@emp.FullName"
+                                       onkeydown="saveField(event, this, @emp.Id, 'FullName')" />
+                            </td>
+                            <td ondblclick="editDropdown(this, @emp.Id, 'Position')">
+                                <span class="editable">@emp.Position?.Name</span>
+                                <select class="edit-dropdown form-control d-none"
+                                        onchange="saveDropdown(this, @emp.Id, 'Position')">
+                                    @foreach (var pos in ViewBag.Positions as List<Staff_WebServer.Models.Position>)
+                                    {
+                                        <option value="@pos.Id" selected="@(pos.Id == emp.PositionId ? "selected" : null)">
+                                            @pos.Name
+                                        </option>
+                                    }
+                                </select>
+                            </td>
+                            <td ondblclick="editField(this, @emp.Id, 'HireDate')">
+                                <span class="editable">@emp.HireDate.ToShortDateString()</span>
+                                <input class="edit-input form-control d-none" type="date"
+                                       value="@emp.HireDate.ToString("yyyy-MM-dd")"
+                                       onkeydown="saveField(event, this, @emp.Id, 'HireDate')" />
+                            </td>
+                            <td ondblclick="editField(this, @emp.Id, 'Salary')">
+                                <span class="editable">@($"{emp.Salary:N0} ₸")</span>
+                                <input class="edit-input form-control d-none" type="number" step="1000"
+                                       value="@emp.Salary"
+                                       onkeydown="saveField(event, this, @emp.Id, 'Salary')" />
                             </td>
                         </tr>
                     }
@@ -46,3 +70,96 @@
         </div>
     </div>
 }
+
+@section Scripts {
+    <script>
+        function editField(cell, employeeId, field) {
+            const span = cell.querySelector('span');
+            const input = cell.querySelector('input');
+            input.value = field === 'HireDate'
+                ? new Date(span.textContent).toISOString().split('T')[0]
+                : span.textContent.replace(' ₸', '').trim();
+
+            span.classList.add('d-none');
+            input.classList.remove('d-none');
+            input.focus();
+        }
+
+        function saveField(event, input, employeeId, field) {
+            if (event.key === "Enter") {
+                const newValue = input.value;
+                const cell = input.parentElement;
+                const span = cell.querySelector('span');
+
+                fetch(`/Director/UpdateField/${employeeId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({ field: field, value: newValue })
+                });
+
+                let displayValue = newValue;
+                if (field === 'Salary') {
+                    displayValue = parseFloat(newValue).toLocaleString('ru-RU') + " ₸";
+                }
+                if (field === 'HireDate') {
+                    displayValue = new Date(newValue).toLocaleDateString('ru-RU');
+                }
+
+                span.textContent = displayValue;
+                input.classList.add('d-none');
+                span.classList.remove('d-none');
+            }
+        }
+
+        function editDropdown(cell, employeeId, field) {
+            const span = cell.querySelector('span');
+            const select = cell.querySelector('select');
+
+            span.classList.add('d-none');
+            select.classList.remove('d-none');
+            select.focus();
+        }
+
+        function saveDropdown(select, employeeId, field) {
+            const newValue = select.value;
+            const span = select.parentElement.querySelector('span');
+            const selectedText = select.options[select.selectedIndex].text;
+
+            fetch(`/Director/UpdateField/${employeeId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({ field: field, value: newValue })
+            });
+
+            span.textContent = selectedText;
+            select.classList.add('d-none');
+            span.classList.remove('d-none');
+        }
+    </script>
+}
+
+<style>
+    .editable {
+        cursor: pointer;
+        position: relative;
+    }
+
+    .editable::after {
+        content: ' ✏️';
+        font-size: 0.9em;
+        opacity: 0.5;
+    }
+
+    .edit-input, .edit-dropdown {
+        width: 100%;
+        padding: 4px;
+        font-size: 0.95rem;
+        box-sizing: border-box;
+    }
+</style>

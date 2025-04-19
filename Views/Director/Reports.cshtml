@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Отчёты";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Отчёты по персоналу</h2>
+
+<div class="container mt-4">
+    <div class="card bg-dark text-white mb-3">
+        <div class="card-body">
+            <ul>
+                <li><a asp-action="PensionerReport" class="text-info">Уволенные пенсионного возраста</a></li>
+                <li><a asp-controller="Reports" asp-action="DependentAllowances" class="text-info">Начисления на иждивенцев</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
