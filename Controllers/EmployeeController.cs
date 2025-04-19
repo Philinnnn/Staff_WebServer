@@ -57,4 +57,21 @@ public class EmployeeController : Controller
         ViewBag.Message = "Данные успешно обновлены!";
         return RedirectToAction("Profile");
     }
+    
+    public async Task<IActionResult> Orders()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null || user.ТабельныйНомер == 0)
+        {
+            return Unauthorized();
+        }
+
+        var orders = await _context.Orders
+            .Include(o => o.OrderType)
+            .Where(o => o.EmployeeId == user.ТабельныйНомер)
+            .OrderByDescending(o => o.Date)
+            .ToListAsync();
+
+        return View(orders);
+    }
 }
