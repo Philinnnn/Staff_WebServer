@@ -1,28 +1,60 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Staff_WebServer.Data;
 using Staff_WebServer.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Staff_WebServer.Controllers;
 
+[Authorize(Roles = "Employee")]
 public class EmployeeController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ApplicationDbContext _context;
 
-    public EmployeeController(UserManager<ApplicationUser> userManager)
+    public EmployeeController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
     {
         _userManager = userManager;
+        _context = context;
     }
-
     public IActionResult Index()
     {
-        // TODO: Заменить на запрос к БД для получения списка сотрудников
-        return View(new List<Employee>());
+        return View();
+    }
+    public async Task<IActionResult> Profile()
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+        var employee = await _context.Employees
+            .Include(e => e.Nationality)
+            .Include(e => e.Education)
+            .Include(e => e.Position)
+            .Include(e => e.Department)
+            .Include(e => e.PensionFund)
+            .FirstOrDefaultAsync(e => e.Id == user.ТабельныйНомер);
+
+        if (employee == null) return NotFound();
+
+        ViewBag.Email = user.Email;
+        return View(employee);
     }
 
-    public IActionResult Details(int id)
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Profile(Employee updated)
     {
-        // TODO: Заменить на запрос к БД для получения данных сотрудника
-        return View(new Employee { Id = id, FullName = "Тестовый Работник" });
+        var user = await _userManager.GetUserAsync(User);
+        var employee = await _context.Employees.FirstOrDefaultAsync(e => e.Id == user.ТабельныйНомер);
+
+        if (employee == null) return NotFound();
+
+        // Только разрешённые поля
+        employee.Address = updated.Address;
+        employee.Dependents = updated.Dependents;
+
+        await _context.SaveChangesAsync();
+        ViewBag.Message = "Данные успешно обновлены!";
+        return RedirectToAction("Profile");
     }
 }

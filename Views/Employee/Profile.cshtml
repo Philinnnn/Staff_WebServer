@@ -1,0 +1,36 @@
+﻿@model Staff_WebServer.Models.Employee
+@{
+    ViewData["Title"] = "Моя карточка";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string GetGenderFull(string code) =>
+        code?.Trim().ToLower() switch
+        {
+            "м" => "Мужской",
+            "ж" => "Женский",
+            _ => code
+        };
+}
+
+<h2 class="text-center mb-4">Моя карточка</h2>
+
+<div class="card p-4 bg-light shadow-sm">
+    <p><strong>ФИО:</strong> @Model.FullName</p>
+    <p><strong>ИИН:</strong> @Model.IIN</p>
+    <p><strong>Пол:</strong> @GetGenderFull(Model.Gender)</p>
+    <p><strong>Дата рождения:</strong> @Model.BirthDate.ToShortDateString()</p>
+    <p><strong>Адрес проживания:</strong> @Model.Address</p>
+    <p><strong>Подразделение:</strong> @Model.Department?.Name</p>
+    <p><strong>Должность:</strong> @Model.Position?.Name</p>
+    <p><strong>Образование:</strong> @Model.Education?.Name</p>
+    <p><strong>Национальность:</strong> @Model.Nationality?.Name</p>
+    <p><strong>Пенсионный фонд:</strong> @Model.PensionFund?.Name</p>
+    <p><strong>Количество иждивенцев:</strong> @Model.Dependents</p>
+    <p><strong>Оклад:</strong> @($"{Model.Salary:N0} ₸")</p>
+    <p><strong>Дата приёма:</strong> @Model.HireDate.ToShortDateString()</p>
+
+    @if (Model.DismissDate != null)
+    {
+        <p><strong>Дата увольнения:</strong> @Model.DismissDate?.ToShortDateString()</p>
+    }
+</div>

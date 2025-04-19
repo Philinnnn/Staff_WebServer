@@ -7,7 +7,11 @@ namespace Staff_WebServer.Models;
 public class Education
 {
     [Key]
+    [Column("код_образования")]
     public int EducationCode { get; set; }
+
+    [Column("наименование")]
     public string Name { get; set; }
+
     public ICollection<Employee> Employees { get; set; } = new List<Employee>();
 }

@@ -1,35 +1,25 @@
-﻿@model List<Staff_WebServer.Models.Employee>
-
-@{
-    ViewBag.Title = "Список работников";
+﻿@{
+    ViewData["Title"] = "Кабинет сотрудника";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Список работников</h2>
+<h2 class="text-center mb-4">👤 Личный кабинет</h2>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>ФИО</th>
-        <th>Оклад</th>
-        <th>Пол</th>
-        <th>Должность</th>
-        <th>Подразделение</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var emp in Model)
-    {
-        <tr>
-            <td>@emp.FullName</td>
-            <td>@emp.Salary</td>
-            <td>@emp.Gender</td>
-            <td>@emp.Position?.Name</td>
-            <td>@emp.Department?.Name</td>
-            <td>
-                <a class="btn btn-sm btn-primary" href="@Url.Action("Details", "Employee", new { id = emp.Id })">Подробнее</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="container">
+    <div class="card bg-light p-4 shadow-sm">
+        <h4>Добро пожаловать, @User.Identity?.Name!</h4>
+        <p>Здесь вы можете просматривать и редактировать свои данные, а также ознакомиться с приказами и справочной информацией.</p>
+
+        <ul class="list-group mt-3">
+            <li class="list-group-item">
+                <a class="text-decoration-none" asp-controller="Employee" asp-action="Profile">📋 Моя карточка</a>
+            </li>
+            <li class="list-group-item">
+                <a class="text-decoration-none" asp-controller="Employee" asp-action="Orders">📜 Мои приказы</a>
+            </li>
+            <li class="list-group-item">
+                <a class="text-decoration-none" asp-controller="Reference" asp-action="Index">📚 Справочная информация</a>
+            </li>
+        </ul>
+    </div>
+</div>
