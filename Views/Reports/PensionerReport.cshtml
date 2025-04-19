@@ -1,0 +1,32 @@
+﻿@model List<dynamic>
+
+@{
+    ViewData["Title"] = "Уволенные пенсионеры";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Уволенные в этом году пенсионеры</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+        <th>ФИО</th>
+        <th>Пол</th>
+        <th>Дата рождения</th>
+        <th>Дата увольнения</th>
+        <th>Полных лет</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var person in Model)
+    {
+        <tr>
+            <td>@person.FullName</td>
+            <td>@person.Gender</td>
+            <td>@person.BirthDate.ToShortDateString()</td>
+            <td>@person.DismissDate.ToShortDateString()</td>
+            <td>@(person.Age?.ToString() ?? "—")</td>
+        </tr>
+    }
+    </tbody>
+</table>

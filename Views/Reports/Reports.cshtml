@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Отчёты";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Отчёты по персоналу</h2>
+
+<div class="container mt-4">
+    <div class="card bg-dark text-white mb-3">
+        <div class="card-body">
+            <ul>
+                <li>
+                    <a asp-controller="Reports" asp-action="PensionerReport" class="text-info">
+                        Уволенные пенсионного возраста (в этом году)
+                    </a>
+                </li>
+            </ul>
+            <hr />
+
+            <form asp-controller="Reports" asp-action="DependentAllowances" method="get" class="d-flex gap-2">
+                <select name="departmentId" class="form-select w-50">
+                    @if (ViewBag.Departments is List<Staff_WebServer.Models.Department> departments)
+                    {
+                        foreach (var dept in departments)
+                        {
+                            <option value="@dept.Id">@dept.Name</option>
+                        }
+                    }
+                    else
+                    {
+                        <option disabled selected>Подразделения не загружены</option>
+                    }
+                </select>
+                <button type="submit" class="btn btn-success">Посмотреть начисления на иждивенцев</button>
+            </form>
+        </div>
+    </div>
+</div>
