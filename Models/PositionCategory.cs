@@ -1,10 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Staff_WebServer.Models;
 
+[Table("категории_должностей")]
 public class PositionCategory
 {
     [Key]
-    public int CategoryCode { get; set; }
-    public string Name { get; set; } // рабочие, ИТР, АУП, служащие…
+    [Column("код_категории")]
+    public int Id { get; set; }
+
+    [Column("наименование")]
+    public string Name { get; set; }
+
+    public List<Position> Positions { get; set; }
 }

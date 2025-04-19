@@ -1,10 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Director Panel";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<h2 class="text-center text-light">Director Dashboard</h2>
-
-<div class="container mt-4">
+﻿<div class="container mt-4">
     <div class="card bg-dark text-white mb-3">
         <div class="card-body">
             <h4>Аналитика и управление</h4>
@@ -12,6 +6,7 @@
                 <li><a href="#" class="text-info">Отчеты по персоналу</a></li>
                 <li><a href="#" class="text-info">Статистика подразделений</a></li>
                 <li><a href="#" class="text-info">Просмотр приказов</a></li>
+                <li><a asp-controller="Director" asp-action="EmployeesByDepartment" class="text-info">Сотрудники по подразделениям</a></li>
             </ul>
         </div>
     </div>

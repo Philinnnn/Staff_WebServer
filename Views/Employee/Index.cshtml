@@ -12,6 +12,8 @@
         <th>ФИО</th>
         <th>Оклад</th>
         <th>Пол</th>
+        <th>Должность</th>
+        <th>Подразделение</th>
         <th></th>
     </tr>
     </thead>
@@ -22,7 +24,11 @@
             <td>@emp.FullName</td>
             <td>@emp.Salary</td>
             <td>@emp.Gender</td>
-            <td><a href="@Url.Action("Details", "Employee", new { id = emp.Id })">Подробнее</a></td>
+            <td>@emp.Position?.Name</td>
+            <td>@emp.Department?.Name</td>
+            <td>
+                <a class="btn btn-sm btn-primary" href="@Url.Action("Details", "Employee", new { id = emp.Id })">Подробнее</a>
+            </td>
         </tr>
     }
     </tbody>

@@ -3,13 +3,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Staff_WebServer.Models;
 
+[Table("должности")]
 public class Position
 {
     [Key]
-    public int PositionCode { get; set; }
+    [Column("код_должности")]
+    public int Id { get; set; }
+
+    [Column("наименование")]
     public string Name { get; set; }
 
-    [ForeignKey("PositionCategory")]
-    public int CategoryCode { get; set; }
-    public PositionCategory PositionCategory { get; set; }
+    [Column("код_категории")]
+    public int CategoryId { get; set; }
+
+    public PositionCategory Category { get; set; }
+
+    public List<Employee> Employees { get; set; }
 }

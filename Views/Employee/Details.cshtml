@@ -1,9 +1,40 @@
 ﻿@model Staff_WebServer.Models.Employee
 
+@{
+    ViewBag.Title = "Информация о сотруднике";
+}
+
 <h2>Информация о сотруднике</h2>
-<p>ФИО: @Model.FullName</p>
-<p>ИИН: @Model.IIN</p>
-<p>Дата рождения: @Model.BirthDate.ToShortDateString()</p>
-<p>Оклад: @Model.Salary</p>
-<p>Должность: @Model</p>
-<p>Подразделение: @Model</p>
+
+<table class="table table-bordered">
+    <tr>
+        <th>ФИО</th>
+        <td>@Model.FullName</td>
+    </tr>
+    <tr>
+        <th>ИИН</th>
+        <td>@Model.IIN</td>
+    </tr>
+    <tr>
+        <th>Дата рождения</th>
+        <td>@Model.BirthDate.ToShortDateString()</td>
+    </tr>
+    <tr>
+        <th>Пол</th>
+        <td>@Model.Gender</td>
+    </tr>
+    <tr>
+        <th>Оклад</th>
+        <td>@Model.Salary</td>
+    </tr>
+    <tr>
+        <th>Должность</th>
+        <td>@Model.Position?.Name</td>
+    </tr>
+    <tr>
+        <th>Подразделение</th>
+        <td>@Model.Department?.Name</td>
+    </tr>
+</table>
+
+<a href="@Url.Action("Index", "Employee")" class="btn btn-secondary">Назад к списку</a>

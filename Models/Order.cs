@@ -3,19 +3,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Staff_WebServer.Models;
 
+[Table("приказы")]
 public class Order
 {
     [Key]
-    public int OrderNumber { get; set; }
+    [Column("номер_приказа")]
+    public int Id { get; set; }
+
+    [Column("дата")]
     public DateTime Date { get; set; }
 
-    [ForeignKey("Employee")]
+    [Column("табельный_номер")]
     public int EmployeeId { get; set; }
-    public Employee Employee { get; set; }
 
-    [ForeignKey("OrderType")]
-    public int OrderTypeCode { get; set; }
-    public OrderType OrderType { get; set; }
+    [Column("код_типа_приказа")]
+    public int OrderTypeId { get; set; }
 
+    [Column("текст_приказа")]
     public string Text { get; set; }
+
+    public Employee Employee { get; set; }
+    public OrderType OrderType { get; set; }
 }

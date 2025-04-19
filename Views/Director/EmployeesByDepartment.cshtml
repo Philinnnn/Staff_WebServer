@@ -1,0 +1,48 @@
+﻿@model List<Staff_WebServer.Models.Department>
+
+@{
+    ViewData["Title"] = "Сотрудники по подразделениям";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Сотрудники по подразделениям</h2>
+
+@foreach (var dept in Model)
+{
+    <div class="card bg-secondary text-white mb-4">
+        <div class="card-header">
+            <h4>@dept.Name</h4>
+        </div>
+        <div class="card-body">
+            @if (dept.Employees != null && dept.Employees.Any())
+            {
+                <table class="table table-dark table-striped">
+                    <thead>
+                    <tr>
+                        <th>ФИО</th>
+                        <th>Должность</th>
+                        <th>Дата приема</th>
+                        <th>Оклад</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var emp in dept.Employees)
+                    {
+                        <tr>
+                            <td>@emp.FullName</td>
+                            <td>@emp.Position?.Name</td>
+                            <td>@emp.HireDate.ToShortDateString()</td>
+                            <td>@emp.Salary.ToString("C", new System.Globalization.CultureInfo("kk-KZ"))
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Нет сотрудников в этом подразделении.</p>
+            }
+        </div>
+    </div>
+}
