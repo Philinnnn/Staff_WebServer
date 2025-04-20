@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="text-center mb-4">👥 HR Панель</h2>
+<h2 class="text-center mb-4">👥 HR-Панель</h2>
 
 <div class="container">
     <div class="card bg-dark text-white shadow-sm mb-4">
@@ -12,7 +12,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-dark border-0">
                     <a asp-action="Employees" class="text-info text-decoration-none">
-                        👤 Список сотрудников
+                        🧑‍💻 Список сотрудников
                     </a>
                 </li>
                 <li class="list-group-item bg-dark border-0">
@@ -21,13 +21,19 @@
                     </a>
                 </li>
                 <li class="list-group-item bg-dark border-0">
-                    <a class="text-info text-decoration-none" asp-controller="Employee" asp-action="Profile">📋 Моя карточка</a>
+                    <a asp-controller="Employee" asp-action="Profile" class="text-info text-decoration-none">
+                        🧾 Моя карточка
+                    </a>
                 </li>
                 <li class="list-group-item bg-dark border-0">
-                    <a class="text-info text-decoration-none" asp-controller="Employee" asp-action="Orders">📜 Мои приказы</a>
+                    <a asp-controller="Employee" asp-action="Orders" class="text-info text-decoration-none">
+                        📜 Мои приказы
+                    </a>
                 </li>
                 <li class="list-group-item bg-dark border-0">
-                    <a class="text-info text-decoration-none" asp-controller="Reference" asp-action="All">📚 Справочная информация</a>
+                    <a asp-controller="Reference" asp-action="All" class="text-info text-decoration-none">
+                        📚 Справочная информация
+                    </a>
                 </li>
             </ul>
         </div>
