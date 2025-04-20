@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Стаж работы сотрудников";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string sortOrder = Context.Request.Query["sort"];
+    bool isDescending = sortOrder == "desc";
+}
+
+<h2 class="text-center">Стаж работы сотрудников</h2>
+
+<div class="container mt-4">
+    <div class="card shadow-sm p-4 bg-light">
+        <div class="mb-3">
+            <a asp-action="EmployeeWorkYears" asp-route-sort="asc" class="btn btn-outline-primary btn-sm @(isDescending ? "" : "active")">По возрастанию</a>
+            <a asp-action="EmployeeWorkYears" asp-route-sort="desc" class="btn btn-outline-primary btn-sm @(isDescending ? "active" : "")">По убыванию</a>
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>Табельный номер</th>
+                <th>ФИО</th>
+                <th>Дата приёма</th>
+                <th>Стаж (лет)</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var emp in Model)
+            {
+                <tr>
+                    <td>@emp.Id</td>
+                    <td>@emp.FullName</td>
+                    <td>@emp.HireDate.ToShortDateString()</td>
+                    <td>@emp.Years</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

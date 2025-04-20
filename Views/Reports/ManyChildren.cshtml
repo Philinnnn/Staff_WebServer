@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Многодетные сотрудники";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">👶 Многодетные сотрудники по подразделению</h2>
+
+<div class="container mt-4">
+    <div class="card shadow-sm p-4 bg-light">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>Табельный номер</th>
+                <th>ФИО</th>
+                <th>Количество иждивенцев</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var row in Model)
+            {
+                <tr>
+                    <td>@row.Id</td>
+                    <td>@row.FullName</td>
+                    <td>@row.Dependents</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

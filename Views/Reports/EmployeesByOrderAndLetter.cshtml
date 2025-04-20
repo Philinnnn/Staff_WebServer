@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Сотрудники по приказу и букве";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Сотрудники по приказу и букве</h2>
+
+@if (Model.Count == 0)
+{
+    <div class="alert alert-info mt-4">Ничего не найдено.</div>
+}
+else
+{
+    <div class="container mt-4">
+        <div class="card shadow-sm p-4 bg-light">
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th>ФИО</th>
+                    <th>Номер приказа</th>
+                    <th>Дата приказа</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var row in Model)
+                {
+                    <tr>
+                        <td>@row.FullName</td>
+                        <td>@row.OrderNumber</td>
+                        <td>@row.OrderDate.ToShortDateString()</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

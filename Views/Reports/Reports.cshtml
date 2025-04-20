@@ -3,22 +3,75 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="text-center">Отчёты по персоналу</h2>
+<h2 class="text-center mb-4">📊 Отчёты по персоналу</h2>
 
-<div class="container mt-4">
-    <div class="card bg-dark text-white mb-3">
+<div class="container">
+    <div class="card bg-dark text-white shadow-sm">
         <div class="card-body">
-            <ul>
-                <li>
-                    <a asp-controller="Reports" asp-action="PensionerReport" class="text-info">
-                        Уволенные пенсионного возраста (в этом году)
+            <h5 class="mb-3">📁 Быстрые отчёты</h5>
+            <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Reports" asp-action="PensionerReport" class="text-info text-decoration-none">
+                        👵 Уволенные пенсионного возраста (в этом году)
+                    </a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Reports" asp-action="CountByPensionFund" class="text-info text-decoration-none">
+                        🏦 Количество работников по пенсионным фондам
+                    </a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Reports" asp-action="EmployeeWorkYears" class="text-info text-decoration-none">
+                        📅 Стаж работы сотрудников
+                    </a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Reports" asp-action="ExperienceInRange" class="text-info text-decoration-none">
+                        🔍 Поиск по стажу (от/до)
                     </a>
                 </li>
             </ul>
-            <hr />
 
-            <form asp-controller="Reports" asp-action="DependentAllowances" method="get" class="d-flex gap-2">
-                <select name="departmentId" class="form-select w-50">
+        <h5 class="mb-3">⚙️ Отчёты с параметрами</h5>
+            
+        <form asp-controller="Reports" asp-action="EmployeesByOrderAndLetter" method="get" class="row g-2 mb-3">
+            <div class="col-md-4">
+                <input type="number" name="orderId" class="form-control" placeholder="Номер приказа" required />
+            </div>
+            <div class="col-md-4">
+                <input type="text" name="letter" class="form-control" maxlength="1" placeholder="Буква фамилии" required />
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-outline-light w-100">
+                    🗂️ Сотрудники по приказу и букве
+                </button>
+            </div>
+        </form>
+            
+        <form asp-controller="Reports" asp-action="ManyChildren" method="get" class="row g-2 mb-3">
+            <div class="col-md-6">
+                <select name="departmentId" class="form-select" required>
+                    <option selected disabled>Выберите подразделение...</option>
+                    @if (ViewBag.Departments is List<Staff_WebServer.Models.Department> departments2)
+                    {
+                        foreach (var dept in departments2)
+                        {
+                            <option value="@dept.Id">@dept.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-outline-light w-100">
+                    👶 Многодетные сотрудники
+                </button>
+            </div>
+        </form>
+            
+        <form asp-controller="Reports" asp-action="DependentAllowances" method="get" class="row g-2 align-items-center">
+            <div class="col-md-6">
+                <select name="departmentId" class="form-select" required>
+                    <option selected disabled>Выберите подразделение...</option>
                     @if (ViewBag.Departments is List<Staff_WebServer.Models.Department> departments)
                     {
                         foreach (var dept in departments)
@@ -26,13 +79,14 @@
                             <option value="@dept.Id">@dept.Name</option>
                         }
                     }
-                    else
-                    {
-                        <option disabled selected>Подразделения не загружены</option>
-                    }
                 </select>
-                <button type="submit" class="btn btn-success">Посмотреть начисления на иждивенцев</button>
-            </form>
+            </div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-outline-light w-100">
+                    📎 Начисления на иждивенцев
+                </button>
+            </div>
+        </form>
         </div>
     </div>
 </div>

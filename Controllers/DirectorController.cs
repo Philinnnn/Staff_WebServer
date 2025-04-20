@@ -4,9 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Staff_WebServer.Data;
 using Staff_WebServer.Models;
 
-namespace Staff_WebServer.Controllers;
-
-[Authorize(Roles = "Director")]
 public class DirectorController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -16,10 +13,13 @@ public class DirectorController : Controller
         _context = context;
     }
 
+    [Authorize(Roles = "Director")]
     public IActionResult Index()
     {
         return View();
     }
+
+    [Authorize(Roles = "HR, Director")]
     public IActionResult OrderList(string? search, string? sort)
     {
         var orders = _context.Orders
@@ -42,7 +42,7 @@ public class DirectorController : Controller
         return View("OrderList", orders.ToList());
     }
 
-
+    [Authorize(Roles = "Director")]
     public IActionResult EmployeesByDepartment()
     {
         var departments = _context.Departments
@@ -55,11 +55,13 @@ public class DirectorController : Controller
         return View(departments);
     }
 
+    [Authorize(Roles = "Director")]
     public IActionResult Reports()
     {
         return View();
     }
 
+    [Authorize(Roles = "Director")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> UpdateField(int id, [FromBody] FieldUpdateModel model)

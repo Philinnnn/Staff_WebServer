@@ -5,13 +5,43 @@
 
 <h2 class="text-center mb-4">👥 HR Панель</h2>
 
-<div class="container mt-4">
-    <div class="card bg-dark text-white mb-3">
+<div class="container">
+    <div class="card bg-dark text-white shadow-sm mb-4">
         <div class="card-body">
-            <ul>
-                <li><a asp-action="Employees" class="text-info">Список сотрудников</a></li>
-                <li><a asp-action="Orders" class="text-info">Список приказов</a></li>
+            <h5 class="mb-3">📋 Действия</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-action="Employees" class="text-info text-decoration-none">
+                        👤 Список сотрудников
+                    </a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Director" asp-action="OrderList" class="text-info text-decoration-none">
+                        📄 Список приказов
+                    </a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a class="text-info text-decoration-none" asp-controller="Employee" asp-action="Profile">📋 Моя карточка</a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a class="text-info text-decoration-none" asp-controller="Employee" asp-action="Orders">📜 Мои приказы</a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a class="text-info text-decoration-none" asp-controller="Reference" asp-action="All">📚 Справочная информация</a>
+                </li>
             </ul>
+        </div>
+    </div>
+
+    <div class="card bg-dark text-white shadow-sm">
+        <div class="card-body">
+            <h5 class="mb-3">📊 Отчёты</h5>
+            <p class="mb-3">
+                Перейдите к отчётам по персоналу, доступным для вас.
+            </p>
+            <a asp-controller="Reports" asp-action="Reports" class="btn btn-outline-light w-100">
+                📈 Открыть отчёты
+            </a>
         </div>
     </div>
 </div>

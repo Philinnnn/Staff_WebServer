@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Стаж от и до";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center mb-4">Стаж работы сотрудников</h2>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-4">
+        <input type="number" name="min" class="form-control" placeholder="От лет" required />
+    </div>
+    <div class="col-md-4">
+        <input type="number" name="max" class="form-control" placeholder="До лет" required />
+    </div>
+    <div class="col-md-4">
+        <button type="submit" class="btn btn-primary w-100">Показать</button>
+    </div>
+</form>
+
+@if (Model is List<dynamic> model && model.Any())
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Таб. номер</th>
+            <th>ФИО</th>
+            <th>Дата приёма</th>
+            <th>Стаж</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var emp in model)
+        {
+            <tr>
+                <td>@emp.Id</td>
+                <td>@emp.FullName</td>
+                <td>@((DateTime)emp.HireDate).ToShortDateString()</td>
+                <td>@emp.Years лет</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

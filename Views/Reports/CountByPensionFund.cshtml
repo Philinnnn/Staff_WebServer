@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Количество работников по пенсионным фондам";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Количество работников по пенсионным фондам</h2>
+
+<div class="container mt-4">
+    <div class="card shadow-sm p-4 bg-light">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>Пенсионный фонд</th>
+                <th>Количество сотрудников</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var row in Model)
+            {
+                <tr>
+                    <td>@row.FundName</td>
+                    <td>@row.Count</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

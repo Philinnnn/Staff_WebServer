@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Staff_WebServer.Data;
 
-[Authorize(Roles = "Employee")]
+[Authorize]
 public class ReferenceController : Controller
 {
     private readonly ApplicationDbContext _context;
