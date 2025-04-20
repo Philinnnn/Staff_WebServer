@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Staff_WebServer.Data;
 using Staff_WebServer.Models;
 
+namespace Staff_WebServer.Controllers;
+
+[Authorize(Roles = "Director")]
 public class DirectorController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -13,7 +16,6 @@ public class DirectorController : Controller
         _context = context;
     }
 
-    [Authorize(Roles = "Director")]
     public IActionResult Index()
     {
         return View();
@@ -48,12 +50,19 @@ public class DirectorController : Controller
         var departments = _context.Departments
             .Include(d => d.Employees.Where(e => e.DismissDate == null))
             .ThenInclude(e => e.Position)
+            .Include(d => d.Employees)
+            .ThenInclude(e => e.Education)
+            .Include(d => d.Employees)
+            .ThenInclude(e => e.Nationality)
+            .Include(d => d.Employees)
+            .ThenInclude(e => e.PensionFund)
             .OrderBy(d => d.Name)
             .ToList();
 
         ViewBag.Positions = _context.Positions.ToList();
         return View(departments);
     }
+
 
     [Authorize(Roles = "Director")]
     public IActionResult Reports()
@@ -70,7 +79,8 @@ public class DirectorController : Controller
             .Include(e => e.Position)
             .FirstOrDefaultAsync(e => e.Id == id);
 
-        if (employee == null) return NotFound();
+        if (employee == null)
+            return NotFound();
 
         switch (model.Field)
         {
@@ -81,14 +91,12 @@ public class DirectorController : Controller
                 if (int.TryParse(model.Value, out var posId))
                     employee.PositionId = posId;
                 break;
-            case "HireDate":
-                if (DateTime.TryParse(model.Value, out var date))
-                    employee.HireDate = date;
-                break;
             case "Salary":
                 if (decimal.TryParse(model.Value, out var salary))
                     employee.Salary = salary;
                 break;
+            default:
+                return BadRequest("Недопустимое поле.");
         }
 
         await _context.SaveChangesAsync();
