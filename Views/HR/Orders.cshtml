@@ -1,0 +1,39 @@
+﻿@model List<Staff_WebServer.Models.Order>
+
+@{
+    ViewData["Title"] = "Список приказов";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center mb-4">Список приказов</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Нет приказов.</div>
+}
+else
+{
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>Номер</th>
+            <th>Дата</th>
+            <th>Сотрудник</th>
+            <th>Тип приказа</th>
+            <th>Текст</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var o in Model)
+        {
+            <tr>
+                <td>@o.Id</td>
+                <td>@o.Date.ToShortDateString()</td>
+                <td>@o.Employee?.FullName</td>
+                <td>@o.OrderType?.Name</td>
+                <td>@o.Text</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

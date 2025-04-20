@@ -1,17 +1,16 @@
 ﻿@{
-    ViewData["Title"] = "HR Panel";
+    ViewData["Title"] = "HR Панель";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2 class="text-center text-light">HR Dashboard</h2>
+
+<h2 class="text-center mb-4">👥 HR Панель</h2>
 
 <div class="container mt-4">
     <div class="card bg-dark text-white mb-3">
         <div class="card-body">
-            <h4>Работа с кадрами</h4>
             <ul>
-                <li><a href="#" class="text-info">Список сотрудников</a></li>
-                <li><a href="#" class="text-info">Добавить сотрудника</a></li>
-                <li><a href="#" class="text-info">Формирование приказов</a></li>
+                <li><a asp-action="Employees" class="text-info">Список сотрудников</a></li>
+                <li><a asp-action="Orders" class="text-info">Список приказов</a></li>
             </ul>
         </div>
     </div>

@@ -1,0 +1,45 @@
+﻿@model List<Staff_WebServer.Models.Employee>
+
+@{
+    ViewData["Title"] = "Список сотрудников";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center mb-4">Список сотрудников</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Нет доступных сотрудников.</div>
+}
+else
+{
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>ФИО</th>
+            <th>Пол</th>
+            <th>Дата рождения</th>
+            <th>Подразделение</th>
+            <th>Должность</th>
+            <th>Образование</th>
+            <th>Пенсионный фонд</th>
+            <th>Оклад</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var e in Model)
+        {
+            <tr>
+                <td>@e.FullName</td>
+                <td>@(e.Gender == "М" ? "Мужской" : "Женский")</td>
+                <td>@e.BirthDate.ToShortDateString()</td>
+                <td>@e.Department?.Name</td>
+                <td>@e.Position?.Name</td>
+                <td>@e.Education?.Name</td>
+                <td>@e.PensionFund?.Name</td>
+                <td>@($"{e.Salary:N0} ₸")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
