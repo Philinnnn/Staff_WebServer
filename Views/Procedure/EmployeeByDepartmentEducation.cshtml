@@ -62,7 +62,7 @@
                         <tr>
                             <td>@e.табельный_номер</td>
                             <td>@e.ФИО</td>
-                            <td>@e.пол</td>
+                            <td>@(e.пол.ToString().ToLower() == "м" ? "М" : e.пол.ToString().ToLower() == "ж" ? "Ж" : e.пол)</td>
                             <td>@(Convert.ToDateTime(e.дата_рождения).ToShortDateString())</td>
                             <td>@(Convert.ToDateTime(e.дата_приема).ToShortDateString())</td>
                             <td>@($"{e.оклад:N0} ₸")</td>

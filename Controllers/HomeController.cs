@@ -10,5 +10,9 @@ namespace Staff_WebServer.Controllers
         {
             return View();
         }
+        public IActionResult Privacy()
+        {
+            return View();
+        }
     }
 }

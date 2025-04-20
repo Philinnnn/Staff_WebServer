@@ -3,41 +3,53 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="text-center mb-4">Стаж работы сотрудников</h2>
+<h2 class="text-center mb-4">📆 Стаж работы сотрудников по диапазону</h2>
 
-<form method="get" class="row g-3 mb-4">
-    <div class="col-md-4">
-        <input type="number" name="min" class="form-control" placeholder="От лет" required />
+<div class="container">
+    <div class="card shadow-sm bg-light p-4 mb-4">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">От (лет)</label>
+                <input type="number" name="min" class="form-control" placeholder="Минимум" required />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">До (лет)</label>
+                <input type="number" name="max" class="form-control" placeholder="Максимум" required />
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">🔍 Показать</button>
+            </div>
+        </form>
     </div>
-    <div class="col-md-4">
-        <input type="number" name="max" class="form-control" placeholder="До лет" required />
-    </div>
-    <div class="col-md-4">
-        <button type="submit" class="btn btn-primary w-100">Показать</button>
-    </div>
-</form>
 
-@if (Model is List<dynamic> model && model.Any())
-{
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th>Таб. номер</th>
-            <th>ФИО</th>
-            <th>Дата приёма</th>
-            <th>Стаж</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var emp in model)
-        {
-            <tr>
-                <td>@emp.Id</td>
-                <td>@emp.FullName</td>
-                <td>@((DateTime)emp.HireDate).ToShortDateString()</td>
-                <td>@emp.Years лет</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
+    @if (Model is List<dynamic> model && model.Any())
+    {
+        <div class="card shadow-sm bg-light p-4">
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Таб. номер</th>
+                        <th>ФИО</th>
+                        <th>Дата приёма</th>
+                        <th>Стаж</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var emp in model)
+                    {
+                        <tr>
+                            <td>@emp.Id</td>
+                            <td>@emp.FullName</td>
+                            <td>@emp.HireDate.ToString("dd.MM.yyyy")</td>
+                            <td>@emp.Years лет</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else if (Context.Request.Query.Any())
+    {
+        <div class="alert alert-warning text-center">Нет сотрудников, подходящих под заданный стаж.</div>
+    }
+</div>

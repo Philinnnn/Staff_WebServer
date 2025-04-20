@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.EntityFrameworkCore
 @using Staff_WebServer.Models
 @inject SignInManager<ApplicationUser> SignInManager
@@ -13,12 +12,12 @@
         var employee = await DbContext.Employees
             .FirstOrDefaultAsync(e => e.Id == currentUser.ТабельныйНомер);
 
-        string greeting = employee != null
+        var greeting = employee != null
             ? $"Здравствуйте, {GetName(employee.FullName)}!"
             : $"Здравствуйте, {User.Identity?.Name}!";
 
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Employee" asp-action="Index">@greeting</a>
+            <a class="nav-link text-dark" asp-controller="Employee" asp-action="Profile">@greeting</a>
         </li>
         <li class="nav-item">
             <form asp-controller="Account" asp-action="Logout" method="post">
@@ -38,11 +37,9 @@
 @functions {
     public string GetName(string fullName)
     {
-        var parts = fullName.Split(' ');
-        if (parts.Length >= 3)
-            return $"{parts[1]} {parts[2]}";
-        if (parts.Length == 2)
-            return parts[1];
-        return fullName;
+        var parts = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        return parts.Length >= 3 ? $"{parts[1]} {parts[2]}" :
+            parts.Length == 2 ? parts[1] :
+            fullName;
     }
 }

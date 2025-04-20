@@ -1,12 +1,43 @@
 ﻿<div class="container mt-4">
-    <div class="card bg-dark text-white mb-3">
+
+    <div class="card bg-dark text-white shadow-sm mb-4">
         <div class="card-body">
-            <h4>Аналитика и управление</h4>
-            <ul>
-                <li><a asp-controller="Reports" asp-action="Reports" class="text-info">Отчёты</a></li>
-                <li><a asp-controller="Director" asp-action="OrderList" class="text-info">Просмотр приказов</a></li>
-                <li><a asp-controller="Director" asp-action="EmployeesByDepartment" class="text-info">Сотрудники по подразделениям</a></li>
-                <li><a asp-controller="Procedure" asp-action="Index" class="text-info">Процедуры и анализ данных</a></li>
+            <h5 class="mb-3">📊 Аналитика</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Reports" asp-action="Reports" class="text-info text-decoration-none">📈 Отчёты</a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Director" asp-action="EmployeesByDepartment" class="text-info text-decoration-none">🧑‍💻 Сотрудники по подразделениям</a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Director" asp-action="OrderList" class="text-info text-decoration-none">📄 Просмотр приказов</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card bg-dark text-white shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="mb-3">🛠️ Инструменты</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Procedure" asp-action="Index" class="text-info text-decoration-none">🔧 Процедуры и анализ данных</a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Reference" asp-action="All" class="text-info text-decoration-none">📚 Справочная информация</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="card bg-dark text-white shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="mb-3">📃 Личное</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Employee" asp-action="Profile" class="text-info text-decoration-none">📋 Моя карточка</a>
+                </li>
             </ul>
         </div>
     </div>
