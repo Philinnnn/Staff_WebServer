@@ -2,16 +2,35 @@
     ViewData["Title"] = "Admin Panel";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2 class="text-center text-light">Admin Dashboard</h2>
+<h2 class="text-center text-dark mb-4">🛠️ Панель администратора</h2>
 
 <div class="container mt-4">
-    <div class="card bg-dark text-white mb-3">
+    <div class="card bg-dark text-white shadow-sm">
         <div class="card-body">
-            <h4>Администрирование</h4>
-            <ul>
-                <li><a asp-controller="Admin" asp-action="Backups" class="text-info">Резервные копии</a></li>
-                <li><a asp-controller="Admin" asp-action="AccessLogs" class="text-info">Мониторинг доступа</a></li>
-                <li><a asp-controller="Admin" asp-action="CreateUser" class="text-info">Создать пользователя</a></li>
+            <h4 class="mb-3">🔧 Администрирование</h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Admin" asp-action="Backups" class="text-info text-decoration-none">💾 Резервные копии</a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Admin" asp-action="AccessLogs" class="text-info text-decoration-none">📊 Мониторинг доступа</a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Admin" asp-action="CreateUser" class="text-info text-decoration-none">👤 Создать пользователя</a>
+                </li>
+            </ul>
+
+            <h4 class="mt-4 mb-3">📁 Личная информация</h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Employee" asp-action="Profile" class="text-info text-decoration-none">📋 Моя карточка</a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Employee" asp-action="Orders" class="text-info text-decoration-none">📜 Мои приказы</a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Reference" asp-action="All" class="text-info text-decoration-none">📚 Справочная информация</a>
+                </li>
             </ul>
         </div>
     </div>

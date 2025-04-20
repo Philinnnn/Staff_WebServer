@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Занятые штатные единицы";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var departments = ViewBag.Departments as List<Staff_WebServer.Models.Department>;
+    var positions = ViewBag.Positions as List<Staff_WebServer.Models.Position>;
+}
+
+<h2 class="text-center mb-4">🏢 Занятые штатные единицы</h2>
+
+<div class="container">
+    <div class="card shadow-sm bg-light p-4 mb-4">
+        <form asp-controller="Procedure" asp-action="BusyUnits" method="get" class="row g-2 align-items-end">
+            <div class="col-md-5">
+                <label class="form-label">Подразделение</label>
+                <select name="departmentId" class="form-select" required>
+                    <option selected disabled value="">Выберите подразделение</option>
+                    @foreach (var dept in departments ?? new())
+                    {
+                        <option value="@dept.Id">@dept.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-5">
+                <label class="form-label">Должность</label>
+                <select name="positionId" class="form-select" required>
+                    <option selected disabled value="">Выберите должность</option>
+                    @foreach (var pos in positions ?? new())
+                    {
+                        <option value="@pos.Id">@pos.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-outline-dark">🔍 Показать</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card shadow-sm bg-light p-4">
+        @if (Model is List<dynamic> units && units.Count > 0)
+        {
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Подразделение</th>
+                        <th>Должность</th>
+                        <th>Количество занятых мест</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in units)
+                    {
+                        var depName = departments?.FirstOrDefault(d => d.Id == Convert.ToInt32(row.код_подразделения))?.Name ?? $"ID: {row.код_подразделения}";
+                        var posName = positions?.FirstOrDefault(p => p.Id == Convert.ToInt32(row.код_должности))?.Name ?? $"ID: {row.код_должности}";
+
+                        <tr>
+                            <td>@depName</td>
+                            <td>@posName</td>
+                            <td>@row.КоличествоЗанятыхМест</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info">Нет данных по занятым единицам для выбранных параметров.</div>
+        }
+    </div>
+</div>

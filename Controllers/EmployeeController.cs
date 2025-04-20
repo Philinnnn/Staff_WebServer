@@ -7,7 +7,7 @@ using Staff_WebServer.Models;
 
 namespace Staff_WebServer.Controllers;
 
-[Authorize(Roles = "Employee, HR, Director")]
+[Authorize]
 public class EmployeeController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;

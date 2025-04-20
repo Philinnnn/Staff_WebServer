@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Хранимые процедуры";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center mb-4">⚙️ Хранимые процедуры</h2>
+
+<div class="container">
+    <div class="card bg-dark text-white shadow-sm">
+        <div class="card-body">
+            <h5 class="mb-3">📂 Выберите действие</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Procedure" asp-action="FreeVacancies" class="text-info text-decoration-none">
+                        🆓 Просмотр свободных вакансий
+                    </a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Procedure" asp-action="EmployeeByDepartmentEducation" class="text-info text-decoration-none">
+                        🧑‍🎓 Поиск сотрудников по образованию и подразделению
+                    </a>
+                </li>
+                <li class="list-group-item bg-dark border-0">
+                    <a asp-controller="Procedure" asp-action="BusyUnits" class="text-info text-decoration-none">
+                        🏢 Количество занятых рабочих мест
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

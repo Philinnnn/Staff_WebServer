@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Свободные вакансии";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var departments = ViewBag.Departments as List<Staff_WebServer.Models.Department>;
+    var positions = ViewBag.Positions as List<Staff_WebServer.Models.Position>;
+}
+
+<h2 class="text-center mb-4">🆓 Свободные вакансии</h2>
+
+<div class="container">
+    <div class="card shadow-sm bg-light p-4">
+        @if (Model is List<dynamic> { Count: > 0 } vacancies)
+        {
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th>Подразделение</th>
+                    <th>Должность</th>
+                    <th>Общее количество</th>
+                    <th>Количество вакансий</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var v in vacancies)
+                {
+                    var depName = departments?.FirstOrDefault(d => d.Id == Convert.ToInt32(v.код_подразделения))?.Name ?? $"ID: {v.код_подразделения}";
+                    var posName = positions?.FirstOrDefault(p => p.Id == Convert.ToInt32(v.код_должности))?.Name ?? $"ID: {v.код_должности}";
+
+                    <tr>
+                        <td>@depName</td>
+                        <td>@posName</td>
+                        <td>@v.общее_количество</td>
+                        <td>@v.количество_вакансий</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info">Нет доступных вакансий.</div>
+        }
+    </div>
+</div>

@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Сотрудники по подразделению и образованию";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center mb-4">🎓 Сотрудники по подразделению и образованию</h2>
+
+<div class="container mb-4">
+    <div class="card shadow-sm bg-light p-4">
+        <form method="get" asp-action="EmployeeByDepartmentEducation" class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Подразделение</label>
+                <select name="departmentId" class="form-select" required>
+                    <option disabled selected>Выберите подразделение</option>
+                    @if (ViewBag.Departments is List<Staff_WebServer.Models.Department> departments)
+                    {
+                        foreach (var dept in departments)
+                        {
+                            <option value="@dept.Id">@dept.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Образование</label>
+                <select name="educationId" class="form-select" required>
+                    <option disabled selected>Выберите образование</option>
+                    @if (ViewBag.Educations is List<Staff_WebServer.Models.Education> educations)
+                    {
+                        foreach (var edu in educations)
+                        {
+                            <option value="@edu.EducationCode">@edu.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-12 text-end">
+                <button type="submit" class="btn btn-dark mt-2">🔍 Показать сотрудников</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model is List<dynamic> employees && employees.Count > 0)
+{
+    <div class="container">
+        <div class="card shadow-sm bg-light p-4">
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Табельный номер</th>
+                        <th>ФИО</th>
+                        <th>Пол</th>
+                        <th>Дата рождения</th>
+                        <th>Дата приёма</th>
+                        <th>Оклад</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var e in employees)
+                    {
+                        <tr>
+                            <td>@e.табельный_номер</td>
+                            <td>@e.ФИО</td>
+                            <td>@e.пол</td>
+                            <td>@(Convert.ToDateTime(e.дата_рождения).ToShortDateString())</td>
+                            <td>@(Convert.ToDateTime(e.дата_приема).ToShortDateString())</td>
+                            <td>@($"{e.оклад:N0} ₸")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else if (Context.Request.Query.Any())
+{
+    <div class="alert alert-warning text-center mt-3">Нет сотрудников по заданным параметрам.</div>
+}
