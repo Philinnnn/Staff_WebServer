@@ -9,9 +9,8 @@
         <div class="card-body">
             <h4>Администрирование</h4>
             <ul>
-                <li><a href="#" class="text-info">Резервное копирование</a></li>
-                <li><a href="#" class="text-info">Управление ролями</a></li>
-                <li><a href="#" class="text-info">Мониторинг доступа</a></li>
+                <li><a asp-controller="Admin" asp-action="Backups" class="text-info">Резервные копии</a></li>
+                <li><a asp-controller="Admin" asp-action="AccessLogs" class="text-info">Мониторинг доступа</a></li>
                 <li><a asp-controller="Admin" asp-action="CreateUser" class="text-info">Создать пользователя</a></li>
             </ul>
         </div>

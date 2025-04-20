@@ -21,7 +21,7 @@ public class SeedUsersController : Controller
         _userManager = userManager;
         _roleManager = roleManager;
     }
-
+    
     [HttpGet]
     public async Task<IActionResult> Generate()
     {
@@ -53,7 +53,7 @@ public class SeedUsersController : Controller
             {
                 var s when s.Contains("директор") => "Director",
                 var s when s.Contains("hr") => "HR",
-                var s when s.Contains("менеджер") => "Admin",
+                var s when s.Contains("администратор") => "Admin",
                 _ => "Employee"
             };
 

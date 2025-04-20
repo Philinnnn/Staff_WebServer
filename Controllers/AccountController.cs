@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Staff_WebServer.Data;
 using Staff_WebServer.Models;
 
 namespace Staff_WebServer.Controllers
@@ -7,10 +8,12 @@ namespace Staff_WebServer.Controllers
     public class AccountController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _context;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager)
+        public AccountController(SignInManager<ApplicationUser> signInManager, ApplicationDbContext context)
         {
             _signInManager = signInManager;
+            _context = context;
         }
 
         [HttpGet]
@@ -32,8 +35,17 @@ namespace Staff_WebServer.Controllers
 
             if (result.Succeeded)
             {
+                _context.AccessLogs.Add(new AccessLog
+                {
+                    UserName = email,
+                    Action = "Вход в систему",
+                    Timestamp = DateTime.Now
+                });
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction("Index", "Home");
             }
+
             else
             {
                 ModelState.AddModelError("", "Неверный email или пароль.");
@@ -42,10 +54,23 @@ namespace Staff_WebServer.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
+            var user = User.Identity?.Name;
+    
             await _signInManager.SignOutAsync();
+
+            if (user != null)
+            {
+                _context.AccessLogs.Add(new AccessLog
+                {
+                    UserName = user,
+                    Action = "Выход из системы",
+                    Timestamp = DateTime.Now
+                });
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction("Login", "Account");
         }
     }

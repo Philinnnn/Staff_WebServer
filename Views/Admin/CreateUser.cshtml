@@ -1,30 +1,158 @@
 ﻿@{
-    ViewData["Title"] = "Создать пользователя";
+    ViewData["Title"] = "Создание сотрудника и аккаунта";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Создать пользователя</h2>
+<h2 class="text-center mb-4">Создание сотрудника и учетной записи</h2>
 
-<form asp-action="CreateUser" method="post">
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" name="email" required />
-    </div>
-    <div class="form-group">
-        <label for="password">Пароль</label>
-        <input type="password" class="form-control" id="password" name="password" required />
-    </div>
-    <div class="form-group">
-        <label for="role">Роль</label>
-        <select class="form-control" id="role" name="role" required>
-            <option value="Employee">Employee</option>
-            <option value="HR">HR</option>
-            <option value="Director">Director</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary mt-3">Создать</button>
-</form>
+<div class="card shadow-sm p-4 bg-light">
+    <form asp-action="CreateUser" method="post">
+        <div class="row g-3">
 
-@if (ViewBag.Message != null)
-{
-    <div class="alert alert-success mt-3">@ViewBag.Message</div>
-}
+            <div class="col-md-12">
+                <h5>Данные сотрудника</h5>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">ФИО</label>
+                <input type="text" name="FullName" class="form-control" required />
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Дата рождения</label>
+                <input type="date" name="BirthDate" class="form-control" required />
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Адрес проживания</label>
+                <input type="text" name="Address" class="form-control" required />
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Пол</label>
+                <select name="Gender" class="form-select" required>
+                    <option value="">Выберите...</option>
+                    <option value="м">Мужской</option>
+                    <option value="ж">Женский</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">ИИН</label>
+                <input type="text" name="IIN" class="form-control" required />
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Национальность</label>
+                <select name="NationalityId" class="form-select" required>
+                    <option value="">Выберите...</option>
+                    @foreach (var item in ViewBag.Nationalities as List<Staff_WebServer.Models.Nationality>)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Образование</label>
+                <select name="EducationId" class="form-select" required>
+                    <option value="">Выберите...</option>
+                    @foreach (var item in ViewBag.Educations as List<Staff_WebServer.Models.Education>)
+                    {
+                        <option value="@item.EducationCode">@item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Пенсионный фонд</label>
+                <select name="PensionFundId" class="form-select" required>
+                    <option value="">Выберите...</option>
+                    @foreach (var item in ViewBag.PensionFunds as List<Staff_WebServer.Models.PensionFund>)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Должность</label>
+                <select name="PositionId" class="form-select" required>
+                    <option value="">Выберите...</option>
+                    @foreach (var item in ViewBag.Positions as List<Staff_WebServer.Models.Position>)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Подразделение</label>
+                <select name="DepartmentId" class="form-select" required>
+                    <option value="">Выберите...</option>
+                    @foreach (var item in ViewBag.Departments as List<Staff_WebServer.Models.Department>)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label">Кол-во иждивенцев</label>
+                <input type="number" name="Dependents" class="form-control" required />
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label">Оклад</label>
+                <input type="number" name="Salary" class="form-control" required />
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Дата приема</label>
+                <input type="date" name="HireDate" class="form-control" required />
+            </div>
+
+            <div class="col-md-12 pt-4">
+                <h5>Учетная запись</h5>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" name="Email" class="form-control" required />
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Пароль</label>
+                <input type="password" name="Password" class="form-control" required />
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Роль</label>
+                <select name="Role" class="form-select" required>
+                    <option value="Employee">Сотрудник</option>
+                    <option value="HR">HR</option>
+                    <option value="Director">Директор</option>
+                    <option value="Admin">Администратор</option>
+                </select>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-success mt-4">Создать</button>
+    </form>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success mt-4">@ViewBag.Message</div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger mt-4">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    }
+</div>

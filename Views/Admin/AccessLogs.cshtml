@@ -1,0 +1,35 @@
+﻿@model List<Staff_WebServer.Models.AccessLog>
+
+@{
+    ViewData["Title"] = "Мониторинг доступа";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center mb-4">📊 Мониторинг доступа</h2>
+
+@if (Model.Count == 0)
+{
+    <div class="alert alert-info">Нет записей доступа.</div>
+}
+else
+{
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>Пользователь</th>
+            <th>Действие</th>
+            <th>Дата и время</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var log in Model)
+        {
+            <tr>
+                <td>@log.UserName</td>
+                <td>@log.Action</td>
+                <td>@log.Timestamp.ToString("g")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

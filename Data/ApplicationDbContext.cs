@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Staff_WebServer.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Staff_WebServer.Data
 {
@@ -21,13 +22,13 @@ namespace Staff_WebServer.Data
         public DbSet<OrderType> OrderTypes { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<StaffSchedule> StaffSchedules { get; set; }
-
+        public DbSet<AccessLog> AccessLogs { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+            
             builder.Entity<StaffSchedule>()
                 .HasKey(ss => new { ss.DepartmentId, ss.PositionId });
 

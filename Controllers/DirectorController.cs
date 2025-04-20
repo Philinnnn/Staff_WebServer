@@ -46,15 +46,15 @@ public class DirectorController : Controller
     public IActionResult EmployeesByDepartment()
     {
         var departments = _context.Departments
-            .Include(d => d.Employees)
+            .Include(d => d.Employees.Where(e => e.DismissDate == null))
             .ThenInclude(e => e.Position)
             .OrderBy(d => d.Name)
             .ToList();
 
         ViewBag.Positions = _context.Positions.ToList();
-
         return View(departments);
     }
+
     public IActionResult Reports()
     {
         return View();

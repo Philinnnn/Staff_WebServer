@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "📚 Справочная информация";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center mb-4">📚 Справочная информация</h2>
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white fw-bold">Подразделения</div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        @foreach (var item in ViewBag.Departments as List<Staff_WebServer.Models.Department>)
+                        {
+                            <li>• @item.Name</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-success text-white fw-bold">Национальности</div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        @foreach (var item in ViewBag.Nationalities as List<Staff_WebServer.Models.Nationality>)
+                        {
+                            <li>• @item.Name</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-warning text-dark fw-bold">Образование</div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        @foreach (var item in ViewBag.Educations as List<Staff_WebServer.Models.Education>)
+                        {
+                            <li>• @item.Name</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-secondary text-white fw-bold">Должности</div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        @foreach (var item in ViewBag.Positions as List<Staff_WebServer.Models.Position>)
+                        {
+                            <li>• @item.Name (@item.Category?.Name)</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-info text-dark fw-bold">Пенсионные фонды</div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        @foreach (var item in ViewBag.PensionFunds as List<Staff_WebServer.Models.PensionFund>)
+                        {
+                            <li>• @item.Name</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-dark text-white fw-bold">Типы приказов</div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        @foreach (var item in ViewBag.OrderTypes as List<Staff_WebServer.Models.OrderType>)
+                        {
+                            <li>• @item.Name</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
