@@ -1,0 +1,49 @@
+﻿@model List<Staff_WebServer.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Управление аккаунтами";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center mb-4">👥 Управление пользователями</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info text-center">@TempData["Message"]</div>
+}
+
+<table class="table table-bordered table-hover table-striped align-middle text-center">
+    <thead class="table-dark">
+    <tr>
+        <th>Email</th>
+        <th>Табельный номер</th>
+        <th>Заблокирован</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model)
+    {
+        var locked = user.LockoutEnd.HasValue && user.LockoutEnd > DateTime.UtcNow;
+        <tr>
+            <td>@user.Email</td>
+            <td>@(user is Staff_WebServer.Models.ApplicationUser appUser ? appUser.ТабельныйНомер : "-")</td>
+            <td>@(locked ? "Да" : "Нет")</td>
+            <td>
+                <form asp-action="ToggleLock" method="post" class="d-inline">
+                    <input type="hidden" name="userId" value="@user.Id" />
+                    <button type="submit" class="btn btn-sm @(locked ? "btn-secondary" : "btn-warning")">
+                        @(locked ? "Разморозить" : "Заморозить")
+                    </button>
+                </form>
+
+                <form asp-action="ResetPassword" method="post" class="d-inline ms-2">
+                    <input type="hidden" name="userId" value="@user.Id" />
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        🔁 Сбросить пароль
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
