@@ -1,4 +1,6 @@
 ﻿@model List<dynamic>
+@using Newtonsoft.Json
+@using System.Linq
 
 @{
     ViewData["Title"] = "Уволенные пенсионеры";
@@ -20,13 +22,26 @@
     <tbody>
     @foreach (var person in Model)
     {
+        var birthDate = Convert.ToDateTime(person.BirthDate ?? DateTime.MinValue);
+        var dismissDate = Convert.ToDateTime(person.DismissDate ?? DateTime.MinValue);
+        
         <tr>
             <td>@person.FullName</td>
             <td>@person.Gender</td>
-            <td>@person.BirthDate.ToShortDateString()</td>
-            <td>@person.DismissDate.ToShortDateString()</td>
+            <td>@birthDate.ToShortDateString()</td>
+            <td>@dismissDate.ToShortDateString()</td>
             <td>@(person.Age?.ToString() ?? "—")</td>
         </tr>
     }
     </tbody>
 </table>
+
+@{
+    var json = JsonConvert.SerializeObject(Model);
+}
+
+<form method="post" asp-controller="Reports" asp-action="ExportToPdf">
+    <input type="hidden" name="viewName" value="PensionerReport" />
+    <input type="hidden" name="jsonModel" value="@json" />
+    <button type="submit" class="btn btn-outline-dark">📥 Скачать PDF</button>
+</form>

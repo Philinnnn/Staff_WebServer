@@ -16,10 +16,19 @@
     {
         <tr>
             <td>@e.FullName</td>
-            <td>@e.Salary.ToString("N0") ₸</td>
+            <td>@Convert.ToDecimal(@e.Salary ?? 0)</td>
             <td>@e.Dependents</td>
             <td>@e.Total.ToString("N0") ₸</td>
         </tr>
     }
     </tbody>
 </table>
+@using Newtonsoft.Json
+@{
+    var json = JsonConvert.SerializeObject(Model);
+}
+<form method="post" asp-controller="Reports" asp-action="ExportToPdf">
+    <input type="hidden" name="viewName" value="DependentAllowances" />
+    <input type="hidden" name="jsonModel" value="@json" />
+    <button type="submit" class="btn btn-outline-dark">📥 Скачать PDF</button>
+</form>

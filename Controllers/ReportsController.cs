@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Dynamic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Rotativa.AspNetCore;
+using Rotativa.AspNetCore.Options;
 using Staff_WebServer.Data;
 
 namespace Staff_WebServer.Controllers;
@@ -345,5 +349,19 @@ public IActionResult ExperienceInRange(int min, int max)
 
         conn.Close();
         return View(result);
+    }
+    
+    [HttpPost]
+    public IActionResult ExportToPdf(string viewName, string jsonModel)
+    {
+        if (string.IsNullOrWhiteSpace(jsonModel))
+            return NotFound("Нет модели");
+
+        var model = JsonConvert.DeserializeObject<List<object>>(jsonModel);
+        return new ViewAsPdf(viewName, model)
+        {
+            FileName = $"{viewName}_{DateTime.Now:yyyyMMddHHmmss}.pdf",
+            PageSize = Size.A4
+        };
     }
 }

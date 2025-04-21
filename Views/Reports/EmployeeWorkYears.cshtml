@@ -9,11 +9,21 @@
 
 <div class="container mt-4">
     <div class="card shadow-sm p-4 bg-light">
-        <div class="mb-3">
+        <div class="mb-3 d-flex align-items-center gap-2">
             <a asp-action="EmployeeWorkYears" asp-route-sort="asc" class="btn btn-outline-primary btn-sm @(isDescending ? "" : "active")">По возрастанию</a>
             <a asp-action="EmployeeWorkYears" asp-route-sort="desc" class="btn btn-outline-primary btn-sm @(isDescending ? "active" : "")">По убыванию</a>
-        </div>
 
+            @using Newtonsoft.Json
+            @{
+                var json = JsonConvert.SerializeObject(Model);
+            }
+
+            <form method="post" asp-controller="Reports" asp-action="ExportToPdf" class="m-0">
+                <input type="hidden" name="viewName" value="EmployeeWorkYears" />
+                <input type="hidden" name="jsonModel" value="@json" />
+                <button type="submit" class="btn btn-outline-dark btn-sm">📥 Скачать PDF</button>
+            </form>
+        </div>
         <table class="table table-bordered table-hover">
             <thead class="table-dark">
             <tr>
@@ -24,14 +34,26 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var emp in Model)
+            @if (Model != null)
             {
-                <tr>
-                    <td>@emp.Id</td>
-                    <td>@emp.FullName</td>
-                    <td>@emp.HireDate.ToShortDateString()</td>
-                    <td>@emp.Years</td>
-                </tr>
+                foreach (var emp in Model)
+                {
+                    var id = emp?.Id ?? "";
+                    var fullName = emp?.FullName ?? "";
+                    var years = emp?.Years ?? 0;
+                    var hireDate = Convert.ToDateTime(emp?.HireDate ?? DateTime.MinValue);
+
+                    <tr>
+                        <td>@id</td>
+                        <td>@fullName</td>
+                        <td>@hireDate.ToShortDateString()</td>
+                        <td>@years</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="4" class="text-danger text-center">Нет данных</td></tr>
             }
             </tbody>
         </table>

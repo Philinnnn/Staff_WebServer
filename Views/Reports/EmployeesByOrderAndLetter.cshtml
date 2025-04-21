@@ -1,4 +1,8 @@
-﻿@{
+﻿@model List<dynamic>
+@using Newtonsoft.Json
+@using System.Linq
+
+@{
     ViewData["Title"] = "Сотрудники по приказу и букве";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -24,14 +28,24 @@ else
                 <tbody>
                 @foreach (var row in Model)
                 {
+                    var orderDate = Convert.ToDateTime(row.OrderDate ?? DateTime.MinValue);
                     <tr>
                         <td>@row.FullName</td>
                         <td>@row.OrderNumber</td>
-                        <td>@row.OrderDate.ToShortDateString()</td>
+                        <td>@orderDate.ToShortDateString()</td>
                     </tr>
                 }
                 </tbody>
             </table>
+            @using Newtonsoft.Json
+            @{
+                var json = JsonConvert.SerializeObject(Model);
+            }
+            <form method="post" asp-controller="Reports" asp-action="ExportToPdf">
+                <input type="hidden" name="viewName" value="EmployeesByOrderAndLetter" />
+                <input type="hidden" name="jsonModel" value="@json" />
+                <button type="submit" class="btn btn-outline-dark">📥 Скачать PDF</button>
+            </form>
         </div>
     </div>
 }

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Staff_WebServer.Data;
 using DotNetEnv;
 using Microsoft.AspNetCore.Identity;
+using Rotativa.AspNetCore;
 using Staff_WebServer.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,7 +24,6 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Применение миграций
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -49,6 +49,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+Rotativa.AspNetCore.RotativaConfiguration.Setup(app.Environment.WebRootPath, "Rotativa");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

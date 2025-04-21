@@ -27,25 +27,34 @@
         <div class="card shadow-sm bg-light p-4">
             <table class="table table-bordered table-hover">
                 <thead class="table-dark">
-                    <tr>
-                        <th>Таб. номер</th>
-                        <th>ФИО</th>
-                        <th>Дата приёма</th>
-                        <th>Стаж</th>
-                    </tr>
+                <tr>
+                    <th>Таб. номер</th>
+                    <th>ФИО</th>
+                    <th>Дата приёма</th>
+                    <th>Стаж</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var emp in model)
-                    {
-                        <tr>
-                            <td>@emp.Id</td>
-                            <td>@emp.FullName</td>
-                            <td>@emp.HireDate.ToString("dd.MM.yyyy")</td>
-                            <td>@emp.Years лет</td>
-                        </tr>
-                    }
+                @foreach (var emp in model)
+                {
+                    <tr>
+                        <td>@emp.Id</td>
+                        <td>@emp.FullName</td>
+                        <td>@emp.HireDate.ToString("dd.MM.yyyy")</td>
+                        <td>@emp.Years лет</td>
+                    </tr>
+                }
                 </tbody>
             </table>
+            @using Newtonsoft.Json
+            @{
+                var json = JsonConvert.SerializeObject(Model);
+            }
+            <form method="post" asp-controller="Reports" asp-action="ExportToPdf">
+                <input type="hidden" name="viewName" value="ExperienceInRange" />
+                <input type="hidden" name="jsonModel" value="@json" />
+                <button type="submit" class="btn btn-outline-dark">📥 Скачать PDF</button>
+            </form>
         </div>
     }
     else if (Context.Request.Query.Any())
