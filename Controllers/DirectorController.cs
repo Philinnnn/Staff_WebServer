@@ -6,7 +6,7 @@ using Staff_WebServer.Models;
 
 namespace Staff_WebServer.Controllers;
 
-[Authorize(Roles = "Director")]
+[Authorize]
 public class DirectorController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -15,7 +15,8 @@ public class DirectorController : Controller
     {
         _context = context;
     }
-
+    
+    [Authorize(Roles = "Director")]
     public IActionResult Index()
     {
         return View();
