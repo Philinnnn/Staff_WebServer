@@ -7,6 +7,7 @@ namespace Staff_WebServer.Models;
 public class Department
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("код_подразделения")]
     public int Id { get; set; }
 

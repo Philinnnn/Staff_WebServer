@@ -7,6 +7,7 @@ namespace Staff_WebServer.Models;
 public class PositionCategory
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("код_категории")]
     public int Id { get; set; }
 

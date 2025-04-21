@@ -7,6 +7,7 @@ namespace Staff_WebServer.Models;
 public class PensionFund
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("код_фонда")]
     public int Id { get; set; }
 

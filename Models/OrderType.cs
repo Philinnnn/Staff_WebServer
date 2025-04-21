@@ -7,6 +7,7 @@ namespace Staff_WebServer.Models;
 public class OrderType
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("код_типа_приказа")]
     public int Id { get; set; }
 

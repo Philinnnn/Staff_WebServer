@@ -7,6 +7,7 @@ namespace Staff_WebServer.Models;
 public class Nationality
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("код_национальности")]
     public int Id { get; set; }
 

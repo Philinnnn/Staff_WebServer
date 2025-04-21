@@ -7,8 +7,9 @@ namespace Staff_WebServer.Models;
 public class Education
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("код_образования")]
-    public int EducationCode { get; set; }
+    public int Id { get; set; }
 
     [Column("наименование")]
     public string Name { get; set; }

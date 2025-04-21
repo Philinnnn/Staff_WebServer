@@ -1,96 +1,79 @@
 ﻿@{
     ViewData["Title"] = "📚 Справочная информация";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var categories = ViewBag.Categories as List<Staff_WebServer.Models.PositionCategory>;
 }
 
 <h2 class="text-center mb-4">📚 Справочная информация</h2>
 
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
 <div class="container">
     <div class="row row-cols-1 row-cols-md-2 g-4">
 
-        <div class="col">
-            <div class="card shadow-sm h-100">
-                <div class="card-header bg-primary text-white fw-bold">Подразделения</div>
-                <div class="card-body">
-                    <ul class="list-unstyled mb-0">
-                        @foreach (var item in ViewBag.Departments as List<Staff_WebServer.Models.Department>)
-                        {
-                            <li>• @item.Name</li>
-                        }
-                    </ul>
+        @foreach (var block in new[] {
+            new { Title = "Подразделения", Color = "primary", Type = "Department", Items = ViewBag.Departments as dynamic },
+            new { Title = "Национальности", Color = "success", Type = "Nationality", Items = ViewBag.Nationalities as dynamic },
+            new { Title = "Образование", Color = "warning", Type = "Education", Items = ViewBag.Educations as dynamic },
+            new { Title = "Должности", Color = "secondary", Type = "Position", Items = ViewBag.Positions as dynamic },
+            new { Title = "Пенсионные фонды", Color = "info", Type = "PensionFund", Items = ViewBag.PensionFunds as dynamic },
+            new { Title = "Типы приказов", Color = "dark", Type = "OrderType", Items = ViewBag.OrderTypes as dynamic },
+        })
+        {
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-@block.Color text-white fw-bold">@block.Title</div>
+                    <div class="card-body">
+                        <ul class="list-group mb-3">
+                            @foreach (var item in block.Items)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <form method="post" asp-action="Update" class="d-flex w-100 gap-2">
+                                        <input type="hidden" name="type" value="@block.Type" />
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input name="newValue" class="form-control" value="@item.Name" />
+                                        @if (block.Type == "Position")
+                                        {
+                                            <select name="categoryId" class="form-select w-auto">
+                                                @foreach (var cat in categories)
+                                                {
+                                                    <option value="@cat.Id" selected="@(item.CategoryId == cat.Id)">
+                                                        @cat.Name
+                                                    </option>
+                                                }
+                                            </select>
+                                        }
+                                        <button type="submit" class="btn btn-sm btn-outline-primary">💾</button>
+                                    </form>
+                                    <form method="post" asp-action="Delete">
+                                        <input type="hidden" name="type" value="@block.Type" />
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">🗑️</button>
+                                    </form>
+                                </li>
+                            }
+                        </ul>
+                        <form method="post" asp-action="Add" class="d-flex gap-2">
+                            <input type="hidden" name="type" value="@block.Type" />
+                            <input name="value" class="form-control" placeholder="Добавить..." />
+                            @if (block.Type == "Position")
+                            {
+                                <select name="categoryId" class="form-select w-auto">
+                                    @foreach (var cat in categories)
+                                    {
+                                        <option value="@cat.Id">@cat.Name</option>
+                                    }
+                                </select>
+                            }
+                            <button type="submit" class="btn btn-success">➕</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col">
-            <div class="card shadow-sm h-100">
-                <div class="card-header bg-success text-white fw-bold">Национальности</div>
-                <div class="card-body">
-                    <ul class="list-unstyled mb-0">
-                        @foreach (var item in ViewBag.Nationalities as List<Staff_WebServer.Models.Nationality>)
-                        {
-                            <li>• @item.Name</li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card shadow-sm h-100">
-                <div class="card-header bg-warning text-dark fw-bold">Образование</div>
-                <div class="card-body">
-                    <ul class="list-unstyled mb-0">
-                        @foreach (var item in ViewBag.Educations as List<Staff_WebServer.Models.Education>)
-                        {
-                            <li>• @item.Name</li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card shadow-sm h-100">
-                <div class="card-header bg-secondary text-white fw-bold">Должности</div>
-                <div class="card-body">
-                    <ul class="list-unstyled mb-0">
-                        @foreach (var item in ViewBag.Positions as List<Staff_WebServer.Models.Position>)
-                        {
-                            <li>• @item.Name (@item.Category?.Name)</li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card shadow-sm h-100">
-                <div class="card-header bg-info text-dark fw-bold">Пенсионные фонды</div>
-                <div class="card-body">
-                    <ul class="list-unstyled mb-0">
-                        @foreach (var item in ViewBag.PensionFunds as List<Staff_WebServer.Models.PensionFund>)
-                        {
-                            <li>• @item.Name</li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card shadow-sm h-100">
-                <div class="card-header bg-dark text-white fw-bold">Типы приказов</div>
-                <div class="card-body">
-                    <ul class="list-unstyled mb-0">
-                        @foreach (var item in ViewBag.OrderTypes as List<Staff_WebServer.Models.OrderType>)
-                        {
-                            <li>• @item.Name</li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
-
+        }
     </div>
 </div>

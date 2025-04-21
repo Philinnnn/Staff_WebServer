@@ -7,6 +7,7 @@ namespace Staff_WebServer.Models;
 public class Position
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("код_должности")]
     public int Id { get; set; }
 

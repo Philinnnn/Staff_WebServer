@@ -59,7 +59,7 @@
                     <option value="">Выберите...</option>
                     @foreach (var item in ViewBag.Educations as List<Staff_WebServer.Models.Education>)
                     {
-                        <option value="@item.EducationCode">@item.Name</option>
+                        <option value="@item.Id">@item.Name</option>
                     }
                 </select>
             </div>
