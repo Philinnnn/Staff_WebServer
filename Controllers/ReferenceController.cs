@@ -23,8 +23,13 @@ public class ReferenceController : Controller
         ViewBag.PensionFunds = _context.PensionFunds.ToList();
         ViewBag.OrderTypes = _context.OrderTypes.ToList();
         ViewBag.Categories = _context.PositionCategories.ToList();
-        return View();
+
+        if (User.IsInRole("Director"))
+            return View("AllEditable");
+        else
+            return View("AllReadOnly");
     }
+
 
     [Authorize(Roles = "Director")]
     [HttpPost]
