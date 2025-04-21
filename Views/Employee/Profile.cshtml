@@ -34,3 +34,32 @@
         <p><strong>Дата увольнения:</strong> @Model.DismissDate?.ToShortDateString()</p>
     }
 </div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<hr />
+<h4>🔐 Сменить пароль</h4>
+<form asp-action="ChangePassword" method="post" class="row g-3 mt-2">
+    <div class="col-md-4">
+        <label class="form-label">Старый пароль</label>
+        <input type="password" name="OldPassword" class="form-control" required />
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Новый пароль</label>
+        <input type="password" name="NewPassword" class="form-control" required />
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Подтверждение</label>
+        <input type="password" name="ConfirmPassword" class="form-control" required />
+    </div>
+    <div class="col-12 text-end">
+        <button type="submit" class="btn btn-outline-primary">🔁 Обновить пароль</button>
+    </div>
+</form>

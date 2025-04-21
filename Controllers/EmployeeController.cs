@@ -39,6 +39,27 @@ public class EmployeeController : Controller
         ViewBag.Email = user.Email;
         return View(employee);
     }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+    {
+        if (!ModelState.IsValid) return RedirectToAction("Profile");
+
+        var user = await _userManager.GetUserAsync(User);
+        var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+
+        if (result.Succeeded)
+        {
+            TempData["Message"] = "Пароль успешно изменён.";
+        }
+        else
+        {
+            TempData["Error"] = string.Join(" ", result.Errors.Select(e => e.Description));
+        }
+
+        return RedirectToAction("Profile");
+    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
