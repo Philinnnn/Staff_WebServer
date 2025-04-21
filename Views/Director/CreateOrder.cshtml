@@ -1,0 +1,52 @@
+﻿@model Staff_WebServer.Models.Order
+
+@{
+    ViewData["Title"] = "Создание приказа";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var employees = ViewBag.Employees as List<Staff_WebServer.Models.Employee>;
+    var types = ViewBag.OrderTypes as List<Staff_WebServer.Models.OrderType>;
+}
+
+<h2 class="text-center mb-4">📄 Создать новый приказ</h2>
+
+<div class="container">
+    <div class="card shadow-sm p-4 bg-light">
+        <form asp-action="CreateOrder" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label">Сотрудник</label>
+                <select asp-for="EmployeeId" class="form-select" required>
+                    <option value="">Выберите сотрудника</option>
+                    @foreach (var emp in employees)
+                    {
+                        <option value="@emp.Id">@emp.FullName</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Тип приказа</label>
+                <select asp-for="OrderTypeId" class="form-select" required>
+                    <option value="">Выберите тип</option>
+                    @foreach (var type in types)
+                    {
+                        <option value="@type.Id">@type.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Text" class="form-label">Текст приказа</label>
+                <textarea asp-for="Text" class="form-control" rows="4" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Date" class="form-label">Дата приказа</label>
+                <input asp-for="Date" type="date" class="form-control" required />
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">💾 Создать приказ</button>
+        </form>
+    </div>
+</div>

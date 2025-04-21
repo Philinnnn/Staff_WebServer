@@ -47,6 +47,78 @@ public class DirectorController : Controller
     }
 
     [Authorize(Roles = "Director")]
+    public IActionResult CreateOrder()
+    {
+        ViewBag.Employees = _context.Employees.OrderBy(e => e.FullName).ToList();
+        ViewBag.OrderTypes = _context.OrderTypes.OrderBy(t => t.Name).ToList();
+
+        return View(new Order
+        {
+            Date = DateTime.Today
+        });
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Director")]
+    public IActionResult CreateOrder(Order order)
+    {
+        Console.WriteLine("➡️ Получен POST-запрос на создание приказа");
+
+        // Удаляем из валидации навигационные свойства
+        ModelState.Remove(nameof(order.Employee));
+        ModelState.Remove(nameof(order.OrderType));
+
+        Console.WriteLine($"📋 Модель приказа:");
+        Console.WriteLine($"- EmployeeId: {order.EmployeeId}");
+        Console.WriteLine($"- OrderTypeId: {order.OrderTypeId}");
+        Console.WriteLine($"- Text: {order.Text}");
+        Console.WriteLine($"- Date: {order.Date}");
+
+        if (ModelState.IsValid)
+        {
+            Console.WriteLine("✅ ModelState — корректен. Сохраняем в БД...");
+
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+
+            Console.WriteLine("💾 Приказ успешно сохранён!");
+
+            return RedirectToAction("OrderList");
+        }
+
+        Console.WriteLine("❌ ModelState — НЕвалиден. Ошибки:");
+        foreach (var key in ModelState.Keys)
+        {
+            var state = ModelState[key];
+            foreach (var error in state.Errors)
+            {
+                Console.WriteLine($"- Поле: {key}, Ошибка: {error.ErrorMessage}");
+            }
+        }
+
+        ViewBag.Employees = _context.Employees.OrderBy(e => e.FullName).ToList();
+        ViewBag.OrderTypes = _context.OrderTypes.OrderBy(t => t.Name).ToList();
+
+        return View(order);
+    }
+
+    [Authorize(Roles = "Director")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult RevokeOrder(int id)
+    {
+        var order = _context.Orders.Find(id);
+        if (order != null)
+        {
+            _context.Orders.Remove(order);
+            _context.SaveChanges();
+        }
+        return RedirectToAction("OrderList");
+    }
+
+    
+    [Authorize(Roles = "Director")]
     public IActionResult EmployeesByDepartment()
     {
         var departments = _context.Departments
