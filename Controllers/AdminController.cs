@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Staff_WebServer.Data;
-using Staff_WebServer.Models;
 
 namespace Staff_WebServer.Controllers;
 
@@ -12,12 +11,10 @@ namespace Staff_WebServer.Controllers;
 public class AdminController : Controller
 {
     private readonly ApplicationDbContext _context;
-    private readonly UserManager<ApplicationUser> _userManager;
 
-    public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+    public AdminController(ApplicationDbContext context)
     {
         _context = context;
-        _userManager = userManager;
     }
 
     public IActionResult Index()
@@ -25,19 +22,6 @@ public class AdminController : Controller
         return View();
     }
     
-    [HttpGet]
-    public IActionResult CreateUser()
-    {
-        ViewBag.Nationalities = _context.Nationalities.ToList();
-        ViewBag.Educations = _context.Educations.ToList();
-        ViewBag.PensionFunds = _context.PensionFunds.ToList();
-        ViewBag.Positions = _context.Positions.ToList();
-        ViewBag.Departments = _context.Departments.ToList();
-
-        return View();
-    }
-    
-    [Authorize(Roles = "Admin")]
     public IActionResult AccessLogs()
     {
         var logs = _context.AccessLogs
@@ -46,79 +30,6 @@ public class AdminController : Controller
             .ToList();
 
         return View(logs);
-    }
-    
-    [HttpPost]
-    public async Task<IActionResult> CreateUser(
-        string FullName,
-        string Address,
-        DateTime BirthDate,
-        string Gender,
-        string IIN,
-        int NationalityId,
-        int EducationId,
-        int PensionFundId,
-        int PositionId,
-        int DepartmentId,
-        int Dependents,
-        decimal Salary,
-        DateTime HireDate,
-
-        string Email,
-        string Password,
-        string Role
-    )
-    {
-        // 1. Сохраняем сотрудника
-        var employee = new Employee
-        {
-            FullName = FullName,
-            Address = Address,
-            BirthDate = BirthDate,
-            Gender = Gender,
-            IIN = IIN,
-            NationalityId = NationalityId,
-            EducationId = EducationId,
-            PensionFundId = PensionFundId,
-            PositionId = PositionId,
-            DepartmentId = DepartmentId,
-            Dependents = Dependents,
-            Salary = Salary,
-            HireDate = HireDate
-        };
-
-        _context.Employees.Add(employee);
-        await _context.SaveChangesAsync();
-
-        // 2. Создаём пользователя и привязываем по табельному номеру
-        var user = new ApplicationUser
-        {
-            UserName = Email,
-            Email = Email,
-            ТабельныйНомер = employee.Id
-        };
-
-        var result = await _userManager.CreateAsync(user, Password);
-
-        if (result.Succeeded)
-        {
-            await _userManager.AddToRoleAsync(user, Role);
-            ViewBag.Message = $"Пользователь и сотрудник успешно созданы. Табельный номер: {employee.Id}";
-        }
-        else
-        {
-            foreach (var error in result.Errors)
-                ModelState.AddModelError("", error.Description);
-        }
-
-        // Повторно загружаем ViewBag для возврата на страницу
-        ViewBag.Nationalities = _context.Nationalities.ToList();
-        ViewBag.Educations = _context.Educations.ToList();
-        ViewBag.PensionFunds = _context.PensionFunds.ToList();
-        ViewBag.Positions = _context.Positions.ToList();
-        ViewBag.Departments = _context.Departments.ToList();
-
-        return View();
     }
         
     [HttpPost]
